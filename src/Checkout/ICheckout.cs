@@ -3,5 +3,5 @@
 public interface ICheckout
 {
     void Scan(string sku);
-    decimal GetTotalPrice();
+    Task<decimal> GetTotalPrice();
 }

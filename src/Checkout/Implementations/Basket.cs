@@ -7,7 +7,7 @@ public class Basket(IPricingRepository pricingRepository) : ICheckout
         throw new NotImplementedException();
     }
 
-    public decimal GetTotalPrice()
+    public Task<decimal> GetTotalPrice()
     {
         throw new NotImplementedException();
     }
