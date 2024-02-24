@@ -50,4 +50,6 @@ jobs:
         id: mutation-testing
         working-directory: ./src/Checkout.Tests
         run: |
-          dotnet stryker
+          dotnet stryker --reporter "markdown" --output ./mutation
+          cat ./mutation/mutation-report.md >> $GITHUB_STEP_SUMMARY
+          cat ./mutation/mutation-report.md >> $GITHUB_WORKSPACE/PRSUMMARY.md
