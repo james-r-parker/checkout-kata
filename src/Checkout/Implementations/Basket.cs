@@ -6,6 +6,7 @@ public class Basket(IPricingRepository pricingRepository) : ICheckout
 {
     private readonly ConcurrentBag<string> _basket = [];
 
+    // TODO: Confirm with team if we should use the price we have at the point the item is added to the basket or the price when we calculate the total.
     public void Scan(string sku)
     {
         _basket.Add(sku);
