@@ -23,7 +23,8 @@ jobs:
       - name: Tools
         run: |
           dotnet tool install -g dotnet-reportgenerator-globaltool
-          dotnet tool install --global LiquidTestReports.Cli --version 1.4.3-beta
+          dotnet tool install -g LiquidTestReports.Cli
+          dotnet tool install -g dotnet-stryker
 
       - working-directory: ./src/Checkout.Tests
         name: Test
@@ -44,3 +45,9 @@ jobs:
           reportgenerator "-reports:./TestResults/*/*.xml" "-targetdir:./TestResults/" "-reporttypes:MarkdownSummaryGithub"
           cat ./TestResults/SummaryGithub.md >> $GITHUB_STEP_SUMMARY
           cat ./TestResults/SummaryGithub.md >> $GITHUB_WORKSPACE/PRSUMMARY.md
+          
+      - name: Mutation Testing
+        id: mutation-testing
+        working-directory: ./src/Checkout.Tests
+        run: |
+          dotnet stryker
