@@ -20,6 +20,7 @@ public class InMemoryPricingRepository : IPricingRepository
 
     public Task<Product> GetProductBySku(string sku)
     {
+        //TODO : Confirm with the team if we want to throw an exception if the product is not found.
         if (!_products.TryGetValue(sku, out var price))
         {
             throw new ProductNotFoundException(sku);

@@ -15,6 +15,9 @@ public class Basket(IPricingRepository pricingRepository) : ICheckout
     {
         decimal totalPrice = 0;
         
+        // Group the basket by product and count the quantity.
+        // TODO: This could become a performance issue if the basket is too big, we could use a dictionary instead. Ask the team the expected size of the basket.
+        // TODO : The price could be calculated in parallel.
         foreach (var item in _basket.GroupBy(x => x))
         {
             totalPrice+= await CalculateProductPrice((item.Key, item.Count()));
@@ -33,6 +36,7 @@ public class Basket(IPricingRepository pricingRepository) : ICheckout
             return product.Pricing.Price * item.Quantity;
         }
         
+        // TODO: Confirm with the team if an offer price can be applied more than once, a boolean on the offer could set this.
         // How many time the offer is applicable.
         int offerQuantity = item.Quantity / product.Pricing.Offer.Quantity;
         // How many items are left after applying the offer.

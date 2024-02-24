@@ -7,10 +7,10 @@ public class BasketTests
 {
     private readonly IEnumerable<Product> _products = new List<Product>()
     {
-        new Product("A", new ProductPrice(50, new ProduceOffer(3,130))),
-        new Product("B", new ProductPrice(30, new ProduceOffer(2,45))),
-        new Product("C", new ProductPrice(20)),
-        new Product("D", new ProductPrice(15)),
+        new ("A", new ProductPrice(50, new ProductPriceOffer(3,130))),
+        new ("B", new ProductPrice(30, new ProductPriceOffer(2,45))),
+        new ("C", new ProductPrice(20)),
+        new ("D", new ProductPrice(15)),
     };
     
     private Basket _sut;
