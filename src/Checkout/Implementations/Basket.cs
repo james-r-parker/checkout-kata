@@ -4,12 +4,12 @@ namespace Checkout.Implementations;
 
 public class Basket(IPricingRepository pricingRepository) : ICheckout
 {
-    private readonly ConcurrentBag<string> _basket = [];
+    private readonly ConcurrentDictionary<string, int> _basket = [];
 
     // TODO: Confirm with team if we should use the price we have at the point the item is added to the basket or the price when we calculate the total.
     public void Scan(string sku)
     {
-        _basket.Add(sku);
+        _basket.AddOrUpdate(sku, 1, (key, oldValue) => oldValue + 1);
     }
 
     public async Task<decimal> GetTotalPrice()
@@ -17,11 +17,10 @@ public class Basket(IPricingRepository pricingRepository) : ICheckout
         decimal totalPrice = 0;
         
         // Group the basket by product and count the quantity.
-        // TODO: This could become a performance issue if the basket is too big, we could use a dictionary instead. Ask the team the expected size of the basket.
         // TODO : The price could be calculated in parallel.
-        foreach (var item in _basket.GroupBy(x => x))
+        foreach (var item in _basket)
         {
-            totalPrice+= await CalculateProductPrice((item.Key, item.Count()));
+            totalPrice+= await CalculateProductPrice((item.Key, item.Value));
         }
 
         return totalPrice;
