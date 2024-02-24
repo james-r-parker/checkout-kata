@@ -3,7 +3,7 @@ using Checkout.Exceptions;
 
 namespace Checkout.Implementations;
 
-public class InMemoryPricingRepository : IPricingRepository
+internal class InMemoryPricingRepository : IPricingRepository
 {
     private readonly IReadOnlyDictionary<string, Product> _products;
 
@@ -18,7 +18,7 @@ public class InMemoryPricingRepository : IPricingRepository
                 x => x.OrderByDescending(y => y.Pricing.Price).First());
     }
 
-    public Task<Product> GetProductBySku(string sku)
+    public Task<Product> GetProductBySkuAsync(string sku)
     {
         //TODO : Confirm with the team if we want to throw an exception if the product is not found.
         if (!_products.TryGetValue(sku, out var price))

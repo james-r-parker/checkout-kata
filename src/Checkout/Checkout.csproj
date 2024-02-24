@@ -6,4 +6,9 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+        <InternalsVisibleTo Include="Checkout.Tests" />
+        <InternalsVisibleTo Include="Checkout.Benchmark" />
+    </ItemGroup>
+
 </Project>

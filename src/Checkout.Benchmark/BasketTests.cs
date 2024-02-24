@@ -49,6 +49,6 @@ public class BasketTests
         {
             _sut.Scan(product);
         }
-        return await _sut.GetTotalPrice();
+        return await _sut.GetTotalPriceAsync();
     }
 }

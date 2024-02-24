@@ -58,7 +58,7 @@ public class CheckoutTests
             _sut.Scan("D");
         }
 
-        decimal result = await _sut.GetTotalPrice();
+        decimal result = await _sut.GetTotalPriceAsync();
         Assert.Equal(100840, result);
     }
 
@@ -85,7 +85,7 @@ public class CheckoutTests
         _sut.Scan("C");
         _sut.Scan("A");
 
-        decimal result = await _sut.GetTotalPrice();
+        decimal result = await _sut.GetTotalPriceAsync();
         Assert.Equal(590, result);
     }
 
@@ -127,7 +127,7 @@ public class CheckoutTests
         _sut.Scan("D");
         _sut.Scan("D");
 
-        decimal result = await _sut.GetTotalPrice();
+        decimal result = await _sut.GetTotalPriceAsync();
         Assert.Equal(590, result);
     }
 
@@ -135,7 +135,7 @@ public class CheckoutTests
     public async Task Single_Product_No_Offer()
     {
         _sut.Scan("C");
-        decimal result = await _sut.GetTotalPrice();
+        decimal result = await _sut.GetTotalPriceAsync();
         Assert.Equal(20, result);
     }
 
@@ -143,7 +143,7 @@ public class CheckoutTests
     public async Task Discount_Product_Without_Offer()
     {
         _sut.Scan("B");
-        decimal result = await _sut.GetTotalPrice();
+        decimal result = await _sut.GetTotalPriceAsync();
         Assert.Equal(30, result);
     }
 
@@ -157,7 +157,7 @@ public class CheckoutTests
         // Standard price
         _sut.Scan("B");
 
-        decimal result = await _sut.GetTotalPrice();
+        decimal result = await _sut.GetTotalPriceAsync();
         Assert.Equal(75, result);
     }
 
@@ -175,7 +175,7 @@ public class CheckoutTests
         // Standard price
         _sut.Scan("B");
 
-        decimal result = await _sut.GetTotalPrice();
+        decimal result = await _sut.GetTotalPriceAsync();
         Assert.Equal(120, result);
     }
 
@@ -186,7 +186,7 @@ public class CheckoutTests
         _sut.Scan("A");
         _sut.Scan("B");
 
-        decimal result = await _sut.GetTotalPrice();
+        decimal result = await _sut.GetTotalPriceAsync();
         Assert.Equal(95, result);
     }
 
@@ -195,6 +195,23 @@ public class CheckoutTests
     {
         _sut.Scan("A");
         _sut.Scan("E");
-        await Assert.ThrowsAsync<ProductNotFoundException>(async () => await _sut.GetTotalPrice());
+        await Assert.ThrowsAsync<ProductNotFoundException>(async () => await _sut.GetTotalPriceAsync());
+    }
+    
+    [Fact]
+    public async Task Empty_Basket_Returns_Zero()
+    {
+        decimal result = await _sut.GetTotalPriceAsync();
+        Assert.Equal(0, result);
+    }
+    
+    [Fact]
+    public async Task Single_Product_With_Offer()
+    {
+        _sut.Scan("A");
+        _sut.Update("A", 3);
+
+        decimal result = await _sut.GetTotalPriceAsync();
+        Assert.Equal(130, result);
     }
 }
