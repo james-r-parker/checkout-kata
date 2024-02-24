@@ -8,13 +8,15 @@ public interface ICheckout
     /// Adds a single product to the basket.
     /// </summary>
     /// <param name="sku">The SKU of the product to fetch.</param>
+    /// <exception cref="BasketArgumentException">Thrown when SKU is null empty or whitespace.</exception>
     void Scan(string sku);
 
     /// <summary>
     /// Attempts to remove a single product from the basket.
     /// </summary>
     /// <param name="sku">The SKU of product to remove</param>
-    /// <exception cref="BasketException">Thrown when there was a failure removing the item from basket.</exception>
+    /// <exception cref="BasketArgumentException">Thrown when SKU is null empty or whitespace.</exception>
+    /// <exception cref="BasketRemovalException">Thrown when there was a failure removing the item from basket.</exception>
     void Remove(string sku);
 
     /// <summary>
@@ -27,7 +29,8 @@ public interface ICheckout
     /// </summary>
     /// <param name="sku"></param>
     /// <param name="quantity"></param>
-    /// <exception cref="BasketException">Thrown when there was a failure removing the item from basket.</exception>
+    /// <exception cref="BasketArgumentException">Thrown when SKU is null empty or whitespace.</exception>
+    /// <exception cref="BasketRemovalException">Thrown when there was a failure removing the item from basket.</exception>
     void Update(string sku, int quantity);
 
     /// <summary>

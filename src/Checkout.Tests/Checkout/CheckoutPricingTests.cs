@@ -1,9 +1,9 @@
-using Checkout.Exceptions;
+﻿using Checkout.Exceptions;
 using Checkout.Implementations;
 
-namespace Checkout.Tests;
+namespace Checkout.Tests.Checkout;
 
-public class CheckoutTests
+public class CheckoutPricingTests
 {
     private readonly IEnumerable<Product> _products = new List<Product>()
     {
@@ -15,7 +15,7 @@ public class CheckoutTests
 
     private readonly ICheckout _sut;
 
-    public CheckoutTests()
+    public CheckoutPricingTests()
     {
         _sut = new Basket(new InMemoryPricingRepository(_products));
     }
@@ -195,21 +195,23 @@ public class CheckoutTests
     {
         _sut.Scan("A");
         _sut.Scan("E");
-        await Assert.ThrowsAsync<ProductNotFoundException>(async () => await _sut.GetTotalPriceAsync());
+        var ex = await Assert.ThrowsAsync<ProductNotFoundException>(async () => await _sut.GetTotalPriceAsync());
+        Assert.Equal("Product with SKU E not found",ex.Message);
     }
-    
+
     [Fact]
     public async Task Empty_Basket_Returns_Zero()
     {
         decimal result = await _sut.GetTotalPriceAsync();
         Assert.Equal(0, result);
     }
-    
+
     [Fact]
     public async Task Single_Product_With_Offer()
     {
         _sut.Scan("A");
-        _sut.Update("A", 3);
+        _sut.Scan("A");
+        _sut.Scan("A");
 
         decimal result = await _sut.GetTotalPriceAsync();
         Assert.Equal(130, result);
