@@ -26,7 +26,7 @@ jobs:
           dotnet tool install --global LiquidTestReports.Cli --version 2.0.0-beta.2
           dotnet tool install -g dotnet-stryker
 
-      - working-directory: ./src/Checkout.Tests
+      - working-directory: ./src/Kata.Tests
         name: Test
         run: dotnet test --consoleLoggerParameters:ErrorsOnly --logger "trx;LogFileName=TestResults.trx" --collect:"XPlat Code Coverage" /p:SkipAutoProps=true /p:ExcludeByAttribute=CompilerGenerated
 
