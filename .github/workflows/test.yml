@@ -31,7 +31,7 @@ jobs:
         run: dotnet test --consoleLoggerParameters:ErrorsOnly --logger "trx;LogFileName=TestResults.trx" --collect:"XPlat Code Coverage" /p:SkipAutoProps=true /p:ExcludeByAttribute=CompilerGenerated
 
       - name: Test Reports
-        working-directory: ./src/Checkout.Tests
+        working-directory: ./src/Kata.Tests
         if: ${{ always() }}
         run: |
           liquid --inputs "File=TestResults/testResults.trx;Format=Trx" --output-file TestResults/tests.md
@@ -40,7 +40,7 @@ jobs:
 
       - name: Coverage Reports
         id: coverage-reports
-        working-directory: ./src/Checkout.Tests
+        working-directory: ./src/Kata.Tests
         run: |
           reportgenerator "-reports:./TestResults/*/*.xml" "-targetdir:./TestResults/" "-reporttypes:MarkdownSummaryGithub"
           cat ./TestResults/SummaryGithub.md >> $GITHUB_STEP_SUMMARY
@@ -48,7 +48,7 @@ jobs:
 
       - name: Mutation Testing
         id: mutation-testing
-        working-directory: ./src/Checkout.Tests
+        working-directory: ./src/Kata.Tests
         run: |
           dotnet stryker --reporter "markdown" --output mutation/
           cat ./mutation/reports/mutation-report.md >> $GITHUB_STEP_SUMMARY
