@@ -1,8 +1,9 @@
-﻿using Checkout.Exceptions;
+﻿using Kata.Exceptions;
+using Kata.Models;
 
-namespace Checkout;
+namespace Kata;
 
-internal interface IPricingRepository
+public interface IPricingRepository
 {
     /// <summary>
     /// Gets a single product by its SKU.
@@ -11,4 +12,10 @@ internal interface IPricingRepository
     /// <returns><see cref="Product"/></returns>
     /// <exception cref="ProductNotFoundException">Thrown when there is no produce with the provided SKU.</exception>
     Task<Product> GetProductBySkuAsync(string sku);
+
+    /// <summary>
+    /// Gets the price of the packaging.
+    /// </summary>
+    /// <returns><see cref="BasketPackaging"/></returns>
+    Task<BasketPackaging?> GetPackagingPriceAsync();
 }

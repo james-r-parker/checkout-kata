@@ -1,4 +1,18 @@
-﻿namespace Checkout;
+﻿namespace Kata.Models;
+
+/// <summary>
+/// Details of the packaging available during checkout.
+/// </summary>
+/// <param name="Capacity">The number of items this packaging can store.</param>
+/// <param name="Price">The price of the this packaging.</param>
+public record BasketPackaging(int Capacity, decimal Price);
+
+/// <summary>
+/// Details of a product in the basket.
+/// </summary>
+/// <param name="Sku">The Sku of the produce.</param>
+/// <param name="Quantity">The quantity of that item within the basket.</param>
+public record BasketItem(string Sku, int Quantity);
 
 /// <summary>
 /// Details of the product handled by the checkout.
@@ -12,8 +26,6 @@ public record Product(string Sku, ProductPrice Pricing);
 /// </summary>
 /// <param name="Price">The price GBP of the product.</param>
 /// <param name="Offer">Details of the offer price if any for the product.</param>
-// TODO: Confirm with team if a products price needs to support multiple currencies.
-// TODO: Confirm with team if a product price can have multiple offer prices. If so the offer should be a collection.
 public record ProductPrice(decimal Price, ProductPriceOffer? Offer = null);
 
 /// <summary>

@@ -1,15 +1,21 @@
-﻿using Checkout.Exceptions;
+﻿using Kata.Exceptions;
+using Kata.Models;
 
-namespace Checkout;
+namespace Kata;
 
-public interface ICheckout
+public interface IBasket
 {
+    /// <summary>
+    /// Gets all items in the basket.
+    /// </summary>
+    IReadOnlyCollection<BasketItem> Items { get; }
+
     /// <summary>
     /// Adds a single product to the basket.
     /// </summary>
     /// <param name="sku">The SKU of the product to fetch.</param>
     /// <exception cref="BasketArgumentException">Thrown when SKU is null empty or whitespace.</exception>
-    void Scan(string sku);
+    void Add(string sku);
 
     /// <summary>
     /// Attempts to remove a single product from the basket.
@@ -32,11 +38,4 @@ public interface ICheckout
     /// <exception cref="BasketArgumentException">Thrown when SKU is null empty or whitespace.</exception>
     /// <exception cref="BasketRemovalException">Thrown when there was a failure removing the item from basket.</exception>
     void Update(string sku, int quantity);
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <returns></returns>
-    /// <exception cref="ProductNotFoundException">Thrown when there is no produce with the provided SKU.</exception>
-    Task<decimal> GetTotalPriceAsync();
 }
